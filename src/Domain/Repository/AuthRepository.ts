@@ -1,4 +1,3 @@
-import { UserEntity } from '@/Domain/Entity';
 import { AuthRequestType, AuthResponseType } from '@/Type';
 
 interface AuthRepository {
