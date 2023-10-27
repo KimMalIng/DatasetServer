@@ -1,4 +1,5 @@
+import EveryTimeEntity from './EveryTimeEntity';
 import TimelineEntity from './TimelineEntity';
 import UserEntity from './UserEntity';
 
-export { TimelineEntity, UserEntity };
+export { EveryTimeEntity, TimelineEntity, UserEntity };

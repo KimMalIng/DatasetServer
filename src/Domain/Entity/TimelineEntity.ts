@@ -1,11 +1,12 @@
-import type { TimelineType } from '@/Type';
+import type { TimelineType, TimelineSubjectSchemaType } from '@/Type';
 
 class TimelineEntity {
   constructor(
     private semester: number | string,
-    private timeline: TimelineType[],
-    private token: string,
-    private year: number
+    private subject: TimelineSubjectSchemaType[],
+    private year: number,
+    private timelineToken: string,
+    private userToken: string,
   ) {}
 }
 
