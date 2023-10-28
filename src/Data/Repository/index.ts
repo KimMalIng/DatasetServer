@@ -1,1 +1,3 @@
-// save file
+import AuthRepositoryImpl from "./AuthRepositoryImpl";
+
+export { AuthRepositoryImpl };
