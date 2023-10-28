@@ -2,6 +2,7 @@ import axios from 'axios';
 import randomString from 'randomstring';
 
 import { UserModel } from '@/DB';
+import { UserEntity } from '@/Domain/Entity';
 import { DATA_SERVER } from '@/Const';
 import { UserRequestType, CheckCredentialRequestType } from '@/Data/Model';
 
@@ -23,13 +24,13 @@ class AuthDataSource {
       return Promise.reject(501);
     }
   }
-  async login({id, password}: UserRequestType): Promise<string> {
+  async login({id, password}: UserRequestType): Promise<UserEntity> {
     try { 
       const everyTimeToken = await this.EveryTimeLogin({id, password});
       const token = randomString.generate(16);
       const saveUser = new UserModel({id, password, token, everyTimeToken });
       await saveUser.save();
-      return token;
+      return new UserEntity(everyTimeToken, id, password, token);
     } catch (error) {
       if(error === 401 || error === 400) return Promise.reject(error);
       return Promise.reject(501);

@@ -33,6 +33,7 @@
       "@/Const": ["src/Const"],
       "@/DB": ["src/DB/db"],
       "@/Router": ["src/Presentation/routes"],
+      "@/Model": ["src/Presentation/Model"],
       "@/Type": ["src/Type"],
       "@/Domain/Entity": ["src/Domain/Entity"],
       "@/Domain/Repository": ["src/Domain/Repository"],
