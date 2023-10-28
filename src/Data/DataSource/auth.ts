@@ -7,6 +7,26 @@ import { DATA_SERVER } from '@/Const';
 import { UserRequestType, CheckCredentialRequestType } from '@/Data/Model';
 
 class AuthDataSource {
+  async EveryTimeLogin({id, password}: UserRequestType): Promise<string> {
+    const isTrueAccount: string | number = await axios.post(`${DATA_SERVER}/everytime/auth`,{
+      id, password
+    })
+    .then((data)=>{
+      return data.data.token;
+    })
+    .catch((error) => {
+      if(error.response.status === 400){
+        return 400;
+      }
+      else if(error.response.status === 401){
+        return 401;
+      }
+    });
+    if(typeof isTrueAccount === "number"){
+      return Promise.reject(isTrueAccount);
+    }
+    return isTrueAccount;
+  }  
   async checkCredential({token}: CheckCredentialRequestType): Promise<boolean | string>{
     try {
       const userData = await UserModel.findOne({token}).lean();
@@ -36,26 +56,16 @@ class AuthDataSource {
       return Promise.reject(501);
     }
   }
-  async EveryTimeLogin({id, password}: UserRequestType): Promise<string> {
-    const isTrueAccount: string | number = await axios.post(`${DATA_SERVER}/everytime/auth`,{
-      id, password
-    })
-    .then((data)=>{
-      return data.data.token;
-    })
-    .catch((error) => {
-      if(error.response.status === 400){
-        return 400;
-      }
-      else if(error.response.status === 401){
-        return 401;
-      }
-    });
-    if(typeof isTrueAccount === "number"){
-      return Promise.reject(isTrueAccount);
+
+  async isAuth({id, password}: UserRequestType): Promise<boolean | UserEntity>{
+    try {
+      const data = await UserModel.findOne({id, password}).lean();
+      if(data === null) return false;
+      return new UserEntity(data.everyTimeToken, data.id, data.password, data.token)
+    } catch (error) {
+      return Promise.reject(500);
     }
-    return isTrueAccount;
-  }  
+  }
 };
 
 export default AuthDataSource;

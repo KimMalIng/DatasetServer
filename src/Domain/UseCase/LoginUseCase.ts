@@ -18,9 +18,14 @@ class LoginUseCase{
       typeof password !== "string"
     ) return Promise.reject(400);
     try {
-      const data = await this.authRepository.auth({id, password});
-      return data;
+      const isAuth = await this.authRepository.isAuth({id, password});
+      if(typeof isAuth === "boolean") {
+        const data = await this.authRepository.auth({id, password});
+        return data;
+      }
+      return isAuth;
     } catch (error) {
+      if(error === 500) return Promise.reject(500);
       return Promise.reject(400);
     }
   }
