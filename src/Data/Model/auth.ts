@@ -1,6 +1,10 @@
-type LoginType = {
+type UserRequestType = {
   id: string;
   password: string;
 };
 
-export type { LoginType };
+type CheckCredentialRequestType = {
+  token: string;
+}
+
+export type { CheckCredentialRequestType, UserRequestType };

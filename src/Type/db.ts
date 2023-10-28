@@ -1,4 +1,5 @@
 type UserSchemaType = {
+  everyTimeToken: string;
   id: string;
   password: string;
   token: string;

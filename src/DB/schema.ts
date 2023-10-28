@@ -6,6 +6,7 @@ import {
 } from '@/Type';
 
 const UserSchema = new Schema<UserSchemaType>({
+  everyTimeToken: { type: String, required: true },
   id: { type: String, required: true },
   password: { type: String, required: true },
   token: { type: String, required: true },
