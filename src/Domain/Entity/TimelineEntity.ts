@@ -6,7 +6,7 @@ class TimelineEntity {
     private subject: TimelineSubjectSchemaType[],
     private year: number,
     private timelineToken: string,
-    private userToken: string,
+    private userToken: string
   ) {}
 }
 

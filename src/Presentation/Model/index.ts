@@ -1,5 +1,3 @@
-import AuthModel from "./authModel";
+import AuthModel from './authModel';
 
-export {
-  AuthModel,
-}
+export { AuthModel };

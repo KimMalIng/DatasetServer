@@ -5,6 +5,6 @@ type UserRequestType = {
 
 type CheckCredentialRequestType = {
   token: string;
-}
+};
 
 export type { CheckCredentialRequestType, UserRequestType };

@@ -1,3 +1,3 @@
-import AuthDataSource from "./auth";
+import AuthDataSource from './auth';
 
 export { AuthDataSource };

@@ -1,7 +1,4 @@
-import GetCredentialUseCase from "./GetCredentialUseCase";
-import LoginUseCase from "./LoginUseCase";
+import GetCredentialUseCase from './GetCredentialUseCase';
+import LoginUseCase from './LoginUseCase';
 
-export {
-  GetCredentialUseCase,
-  LoginUseCase
-};
+export { GetCredentialUseCase, LoginUseCase };
