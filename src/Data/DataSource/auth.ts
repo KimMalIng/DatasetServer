@@ -25,7 +25,7 @@ class AuthDataSource {
         }
       });
     if (typeof isTrueAccount === 'number') {
-      return Promise.reject(isTrueAccount);
+      return Promise.reject(new Error(String(isTrueAccount)));
     }
     return isTrueAccount;
   }
@@ -47,9 +47,11 @@ class AuthDataSource {
         );
       }
       return userData.token;
-    } catch (error) {
-      if (error === 401 || error === 400) return Promise.reject(error);
-      return Promise.reject(501);
+    } catch (error: unknown) {
+      if(error instanceof Error){
+        if (error.message === "401" || error.message === "400") return Promise.reject(new Error(error.message));
+      }
+      return Promise.reject(new Error("501"));
     }
   }
 
@@ -61,8 +63,10 @@ class AuthDataSource {
       await saveUser.save();
       return new UserEntity(everyTimeToken, id, password, token);
     } catch (error) {
-      if (error === 401 || error === 400) return Promise.reject(error);
-      return Promise.reject(501);
+      if(error instanceof Error){
+        if (error.message === "401" || error.message === "400") return Promise.reject(new Error(error.message));
+      }
+      return Promise.reject(new Error("501"));
     }
   }
 
@@ -80,7 +84,8 @@ class AuthDataSource {
         data.token
       );
     } catch (error) {
-      return Promise.reject(500);
+      return Promise.reject(new Error("500"));
+
     }
   }
 }

@@ -54,11 +54,16 @@ type GetEveryTimeResponseType = {
   timeline: EveryTimeType[];
 };
 
+type ErrorType = {
+  message: string;
+}
+
 export type {
   AuthRequestType,
   AuthResponseType,
   CreateDatasetRequestType,
   CreateDatasetResponseType,
+  ErrorType,
   GetCategoryResponseType,
   GetEveryTimeResponseType,
 };

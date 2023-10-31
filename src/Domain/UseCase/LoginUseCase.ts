@@ -27,8 +27,10 @@ class LoginUseCase {
       }
       return isAuth;
     } catch (error) {
-      if (error === 500) return Promise.reject(500);
-      return Promise.reject(400);
+      if(error instanceof Error){
+        return Promise.reject(new Error(error.message));
+      }
+      return Promise.reject(new Error("400"));
     }
   }
 }

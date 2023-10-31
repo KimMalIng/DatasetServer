@@ -21,8 +21,11 @@ class AuthModel {
     try {
       const data = await this.loginUseCase.execute({ id, password });
       return data;
-    } catch (error) {
-      return Promise.reject(error);
+    } catch (error: unknown) {
+      if(error instanceof Error){
+        return Promise.reject(new Error(error.message));
+      }
+      return Promise.reject(new Error("500"));
     }
   }
 

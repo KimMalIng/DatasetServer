@@ -19,17 +19,22 @@ class AuthRepositoryImpl implements AuthRepository {
       if (typeof data === 'boolean') return false;
       return data;
     } catch (error) {
-      return Promise.reject(500);
+      return Promise.reject(new Error("500"));
     }
   }
 
   async auth({ id, password }: AuthRequestType): Promise<UserEntity> {
-    const data: UserEntity | number = await this.authDataSource
+    const data: UserEntity | string = await this.authDataSource
       .login({ id, password })
       .then((d) => d)
-      .catch((error) => error);
-    if (typeof data === 'number') {
-      return Promise.reject(data);
+      .catch((error: unknown) => {
+        if(error instanceof Error){
+          return error.message;
+        }
+        return "500";
+      });
+    if (typeof data === 'string') {
+      return Promise.reject(new Error(data));
     }
     return data;
   }

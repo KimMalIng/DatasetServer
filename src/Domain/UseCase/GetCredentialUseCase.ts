@@ -12,7 +12,10 @@ class GetCredentialUseCase {
       const data = await this.authRepository.getCredential({ token });
       return data;
     } catch (error) {
-      return Promise.reject(error);
+      if(error instanceof Error){
+        return Promise.reject(new Error(error.message));
+      }
+      return Promise.reject(new Error("500"));
     }
   }
 }
