@@ -7,7 +7,11 @@ type LoginUseCaseType = {
 };
 
 class LoginUseCase {
-  constructor(private authRepository: AuthRepository) {}
+  private authRepository: AuthRepository;
+
+  constructor(authRepository: AuthRepository) {
+    this.authRepository = authRepository;
+  }
 
   async execute({ id, password }: LoginUseCaseType): Promise<UserEntity> {
     if (
@@ -27,10 +31,10 @@ class LoginUseCase {
       }
       return isAuth;
     } catch (error) {
-      if(error instanceof Error){
+      if (error instanceof Error) {
         return Promise.reject(new Error(error.message));
       }
-      return Promise.reject(new Error("400"));
+      return Promise.reject(new Error('400'));
     }
   }
 }

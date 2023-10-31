@@ -56,7 +56,7 @@ type GetEveryTimeResponseType = {
 
 type ErrorType = {
   message: string;
-}
+};
 
 export type {
   AuthRequestType,

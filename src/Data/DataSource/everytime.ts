@@ -6,52 +6,53 @@ import { EveryTimeResponseType, GetEveryTimeRequestType } from '@/Data/Model';
 import { DATA_SERVER } from '@/Const';
 
 class EveryTimeDataSource {
-  async getEveryTime({
+  static async getEveryTime({
     everyTimeToken,
   }: GetEveryTimeRequestType): Promise<EveryTimeResponseType[]> {
     const data: EveryTimeResponseType[] | number = await axios
       .post(`${DATA_SERVER}/everytime/timeline`, {
         token: everyTimeToken,
       })
-      .then((data) => data.data)
+      .then((d) => d.data)
       .catch((error) => error.response.statuss);
-    if (typeof data === 'number') return Promise.reject(new Error(String(data)));
+    if (typeof data === 'number')
+      return Promise.reject(new Error(String(data)));
     return data;
   }
 
-  async translateEveryTime(
+  static async translateEveryTime(
     data: EveryTimeResponseType[],
     everyTimeToken: string
   ): Promise<void> {
     try {
       const UserToken = await UserModel.findOne({ everyTimeToken });
-      if (UserToken === null) return Promise.reject(401);
+      if (UserToken === null) return Promise.reject(new Error('401'));
       data.map(async (d) => {
         const timelineToken = Randomstring.generate(16);
         const saveTimeLine = new TimelineModel({
-          timelineToken: timelineToken,
+          timelineToken,
           semester: d.semester,
           token: UserToken,
           year: d.year,
         });
         await saveTimeLine.save();
-        d.timeline.map((t)=>{
-          const day = t.day;
-          t.subject.map(async (s)=>{
+        d.timeline.map((t) => {
+          const { day } = t;
+          t.subject.map(async (s) => {
             const saveSubject = new SubjectModel({
-              day: day,
+              day,
               endTime: s.endTime,
               startTime: s.startTime,
               name: s.name,
-              timelineToken: timelineToken,
-              type: 'const'
+              timelineToken,
+              type: 'const',
             });
             await saveSubject.save();
           });
         });
       });
     } catch (error) {
-      return Promise.reject(new Error("500"));
+      return Promise.reject(new Error('500'));
     }
   }
 }
