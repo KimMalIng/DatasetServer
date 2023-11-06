@@ -64,6 +64,7 @@ export type {
   CreateDatasetRequestType,
   CreateDatasetResponseType,
   ErrorType,
+  EveryTimeType,
   GetCategoryResponseType,
   GetEveryTimeResponseType,
 };

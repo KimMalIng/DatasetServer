@@ -31,12 +31,12 @@ class TimelineRepositoryImpl implements TimelineRepository {
     }
   }
 
-  async getTimeline({
+  async getTimelines({
     token
-  }: AuthResponseType): Promise<TimelineEntity> {
+  }: AuthResponseType): Promise<void> {
     try {
-      const data = await TimelineDataSource.getTimeline({token});
-      return data;
+      const data = await TimelineDataSource.getTimelines({token});
+      await TimelineDataSource.translateTimeline(data, token);
     } catch (error) {
       if(error instanceof Error) return Promise.reject(new Error(error.message));
       return Promise.reject(new Error("500"));

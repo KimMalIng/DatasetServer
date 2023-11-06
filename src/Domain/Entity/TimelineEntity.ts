@@ -7,21 +7,17 @@ class TimelineEntity {
 
   private year: number;
 
-  private timelineToken: string;
-
   private userToken: string;
 
   constructor(
     semester: number | string,
     subject: TimelineSubjectSchemaType[],
     year: number,
-    timelineToken: string,
     userToken: string
   ) {
     this.semester = semester;
     this.subject = subject;
     this.year = year;
-    this.timelineToken = timelineToken;
     this.userToken = userToken;
   }
 }

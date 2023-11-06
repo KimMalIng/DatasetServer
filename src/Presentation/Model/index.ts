@@ -1,3 +1,4 @@
 import AuthModel from './authModel';
+import TimelineModel from './timelineModel';
 
-export { AuthModel };
+export { AuthModel, TimelineModel };

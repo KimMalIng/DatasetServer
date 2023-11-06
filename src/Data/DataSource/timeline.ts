@@ -1,6 +1,10 @@
+import axios from 'axios';
+import Randomstring from 'randomstring';
 import { TimelineModel, SubjectModel } from '@/DB';
 import { TimelineEntity } from '@/Domain/Entity';
-import { GetCategroyRequestType, GetCategoryResponseType } from '@/Data/Model';
+import { GetCategroyRequestType, GetCategoryResponseType, EveryTimeResponseType } from '@/Data/Model';
+import { TimelineSubjectSchemaType } from '@/Type';
+import { DATA_SERVER } from '@/Const';
 
 class TimelineDataSource {
   static async getCategory({
@@ -15,20 +19,41 @@ class TimelineDataSource {
       return Promise.reject(new Error('500'));
     }
   }
-  static async getTimeline({token}: GetCategroyRequestType): Promise<TimelineEntity>{
+  static async getTimelines({token}: GetCategroyRequestType): Promise<EveryTimeResponseType[]>{
     try {
-      const data: GetCategoryResponseType | null = await TimelineModel.findOne({
-        timelineToken: token,
-      }).lean();
-      if(data === null){
-        return Promise.reject(new Error('401'));
-      }
-      const subject = await SubjectModel.find({timelineToken: token});
-      const entity = new TimelineEntity(data.semester, subject, data.year, data.timelineToken, data.userToken);
-      return entity;
+      const res = await axios.get(`${DATA_SERVER}/everytime?token=${token}`);
+      const body: EveryTimeResponseType[] = res.data;
+      return body;
     } catch (error) {
       return Promise.reject(new Error('500'));
     }
+  }
+  static async translateTimeline(data: EveryTimeResponseType[], token: string): Promise<void>{
+    const body = data.map(async (d) => {
+      const timelineToken = Randomstring.generate(16);
+      for(let i = 0; i < d.timeline.length; i++){
+        const day = d.timeline[i].day;
+        for(let j = 0; j < d.timeline[i].subject.length; j++){
+          const data: TimelineSubjectSchemaType = {
+            day,
+            endTime:  d.timeline[i].subject[j].endTime,
+            startTime:  d.timeline[i].subject[j].startTime,
+            name:  d.timeline[i].subject[j].name,
+            timelineToken,
+            type: 'const' 
+          };
+          const saveSubject = new SubjectModel({...data});
+          await saveSubject.save();
+        }
+      }
+      const saveTimeline = new TimelineModel({
+        semester: d.semester,
+        year: d.year,
+        timelineToken,
+        userToken:token,
+      });
+      await saveTimeline.save();
+    });
   }
 }
 

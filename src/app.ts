@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import { AuthRouter } from '@/Router';
+import { AuthRouter, TimelineRouter } from '@/Router';
 
 import { PORT } from '@/Const';
 
@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/auth', AuthRouter);
+app.use('/timeline', TimelineRouter);
 
 app.listen(PORT, () => {
   console.log(`

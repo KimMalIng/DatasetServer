@@ -12,9 +12,9 @@ interface TimelineRepository {
     year,
   }: CreateDatasetRequestType): Promise<CreateDatasetResponseType>;
   getCategory({ token }: AuthResponseType): Promise<CategoryEntity[]>;
-  getTimeline({
+  getTimelines({
     token,
-  }: AuthResponseType): Promise<TimelineEntity>;
+  }: AuthResponseType): Promise<void>;
   saveDataset(): Promise<void>;
   // getRandomTimeline
   // saveTimeline
