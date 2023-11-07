@@ -1,6 +1,6 @@
 const DATABASE_NAME = 'kim';
 const DATABASE_PORT = 27017;
-const DATA_SERVER = "http://localhost:3005";
+const DATA_SERVER = 'http://localhost:3005';
 const PORT = 3004;
 const URL = 'https://localhost';
 

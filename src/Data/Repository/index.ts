@@ -1,3 +1,4 @@
-import AuthRepositoryImpl from "./AuthRepositoryImpl";
+import AuthRepositoryImpl from './AuthRepositoryImpl';
+import TimelineRepositoryImpl from './TimelineRepository';
 
-export { AuthRepositoryImpl };
+export { AuthRepositoryImpl, TimelineRepositoryImpl };

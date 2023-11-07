@@ -1,7 +1,5 @@
-import GetCredentialUseCase from "./GetCredentialUseCase";
-import LoginUseCase from "./LoginUseCase";
+import CreateTimelineUseCase from './CreateTimelineUseCase';
+import GetCredentialUseCase from './GetCredentialUseCase';
+import LoginUseCase from './LoginUseCase';
 
-export {
-  GetCredentialUseCase,
-  LoginUseCase
-};
+export { CreateTimelineUseCase, GetCredentialUseCase, LoginUseCase };
